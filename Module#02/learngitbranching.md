@@ -64,22 +64,45 @@
 - `git branch -f main C4'`
 
 ### Juggling Commits
-- `git rebase -i C1`
-- `.........`
+- `git rebase -i caption^^`
+- `git commit --amend`
+- `git rebase -i caption^^`
+- `git branch main caption`
 
 ### Juggling Commits #2
+- `git checkout main`
+- `git cherry-pick C2`
+- `git commit --amend`
+- `git cherry-pick C3`
 
 ### Git Tags
+- `git tag v1 C2`
+- `git tag v0 C1`
+- `git checkout C2`
 
 ### Git Describe
+- `git describe C3`
+- `git commit`
 
 ## Advanced Topics
 
 ### Rebasing over 9000 times
+- `git rebase main bugFix`
+- `git rebase bugFix side`
+- `git rebase side another`
+- `git rebase another main`
 
 ### Multiple parents
+- `git checkout HEAD~^2~`
+- `git branch bugWork`
+- `git checkout main`
 
 ### Branch Spaghetti
+- `git checkout one`
+- `git cherry-pick C4 C3 C2`
+- `git checkout two`
+- `git cherry-pick C5 C4 C3 C2`
+- `git branch -f three C2`
 
 ## Push & Pull -- Git Remotes!
 
@@ -87,7 +110,6 @@
 - `git clone`
 
 ### Remote Branches
-- `git checkout main`
 - `git commit`
 - `git checkout C1`
 - `git commit`
@@ -101,15 +123,27 @@
 ### Faking Teamwork
 - `git clone`
 - `git fakeTeamwork 2`
-- `git checkout main`
 - `git commit`
-- `...........`
+- `git push`
 
 ### Git Pushin'
+- `git commit`
+- `git commit`
+- `git push`
 
 ### Diverged History
+- `git clone`
+- `git fakeTeamwork 1`
+- `git commit`
+- `git pull --rebase`
+- `git push`
 
 ### Locked Main
+- `git branch feature`
+- `git branch -f main C1`
+- `git reset o/main`
+- `git push origin feature`
+- `git checkout feature`
 
 ## To Origin And Beyond -- Advanced Git Remotes!
 
