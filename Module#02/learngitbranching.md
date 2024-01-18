@@ -1,7 +1,5 @@
 # List of git commands required to fulfill tasks on learngitbranching.js.org
 
-**Note: This document is still a work in progress.**
-
 ![Main](Main.jpg)
 
 ![Remote](Remote.jpg)
@@ -148,21 +146,49 @@
 ## To Origin And Beyond -- Advanced Git Remotes!
 
 ### Push Main!
+- `git fetch`
+- `git rebase o/main side1`
+- `git rebase side1 side2`
+- `git rebase side2 side3`
+- `git rebase side3 main`
+- `git push`
 
 ### Merging with remotes
+- `git checkout main`
+- `git pull`
+- `git merge side1`
+- `git merge side2`
+- `git merge side3`
+- `git push`
 
 ### Remote Tracking
+- `git checkout -b side o/main`
+- `git commit`
+- `git fetch`
+- `git rebase o/main`
+- `git push`
 
 ### Git push arguments
+- `git push origin main`
+- `git push origin foo`
 
 ### Git push arguments -- Expanded!
+- `git push origin main^:foo`
+- `git push origin foo:main`
 
 ### Fetch arguments
+- `git fetch origin main^:foo`
+- `git fetch origin foo:main`
+- `git checkout foo`
+- `git merge main`
 
 ### Source of nothing
+- `git push origin :foo`
+- `git fetch origin :bar`
 
 ### Pull arguments
+- `git pull origin bar:foo`
+- `git pull origin main:side`
 
 ## Additional Information
 - I used ChatGPT 4 to add Markup language code. The commands and overall logic is my own.
-- The list is not complete and requires additional work.
