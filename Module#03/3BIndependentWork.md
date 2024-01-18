@@ -5,7 +5,7 @@
 ### Objective
 Create Linux users, groups and permissions according to the specified requirements.
 
-![3B Independent Work](3B-independent-Work.png)
+![3B Independent Work](3B-Independent-Work.png)
 
 ### Commands
 
