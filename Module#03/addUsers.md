@@ -5,7 +5,7 @@
 ### Objective
 Create Linux users and groups according to the specified requirements.
 
-![Users](users.png)
+![3A Independent Work](3A-Independent-Work.png)
 
 ### Commands
 
