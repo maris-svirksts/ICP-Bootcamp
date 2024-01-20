@@ -85,7 +85,7 @@ sudo mv /tmp/index.html /var/www/html/index.html
 ```
 
 ### End results
-![3B HomeWork](3BHomeWorkFiles/Input-Fields.png)
+![3B HomeWork](3BHomeWorkFiles/Input-fields.png)
 ![3B HomeWork](3BHomeWorkFiles/new-record-inserted.png)
 ![3B HomeWork](3BHomeWorkFiles/filled-database.png)
 
