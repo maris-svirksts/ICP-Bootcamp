@@ -40,7 +40,11 @@ This script processes a list of files and directories within a specified directo
 - Checks if the script is provided with exactly one argument (expected to be a directory path).
 - Verifies the existence of the provided directory.
 
-### Sourcecode
+### Screenshots
+![5 Bash Scripting](Files/independent_work_top.png)
+![5 Bash Scripting](Files/independent_work_tail.png)
+
+### Source Code
 ```bash
 #!/bin/bash
 
