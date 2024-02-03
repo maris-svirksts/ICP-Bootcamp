@@ -1,48 +1,60 @@
-Code examples and more information can be found here: https://docs.snowflake.com/en/sql-reference/external-functions-creating-aws-common-api-integration
 
-AWS Lambda:
+# Integration of AWS Lambda with Snowflake for use within Stored Procedures
+
+This document outlines the steps required to integrate AWS Lambda with Snowflake, enabling Snowflake to invoke an AWS Lambda function. This integration facilitates the creation of various event-driven actions, ranging from executing custom code, backend services to integrating with SQS, SNS, and more.
+
+## Resources and Documentation
+
+For detailed code examples and more information, refer to the Snowflake documentation on creating AWS common API integration: [Snowflake Documentation](https://docs.snowflake.com/en/sql-reference/external-functions-creating-aws-common-api-integration)
+
+## AWS Lambda Function Example
+
+Below is a Python code snippet for an AWS Lambda function. This function is triggered by Snowflake to perform a specific task and return a response.
+
 ```python
 import json
 
 def lambda_handler(event, context):
-    # Extracting the message from the event object.
-    # Assuming the message is sent in a field named 'message'.
-    message = "Hello from Lambda"
+    # Extracting the "message" from the event object.
+    message = event.get('message', 'Hello from Lambda')
     
     # Constructing the response as an array of arrays with the message
-    response_data = [
-        [0, message]  # Using the extracted message here
-    ]
+    response_data = [[0, message]]
     
-    # Creating the final response object with 'data' containing the response_data
-    response = {
-        "data": response_data
-    }
+    # Creating the final response object
+    response = {"data": response_data}
     
     # Returning the JSON response
     return {
         'statusCode': 200,
         'body': json.dumps(response),
-        'headers': {
-            'Content-Type': 'application/json',
-        },
+        'headers': {'Content-Type': 'application/json'},
     }
 ```
 
-Snowflake:
+## Configuring Snowflake
+
+### Set the Role with Account Admin Privileges
+
 ```sql
-use role <has_accountadmin_privileges>;
+USE ROLE <has_accountadmin_privileges>;
 ```
+
+### Create API Integration
+
+Create an API integration in Snowflake to connect with the AWS Lambda function.
 
 ```sql
 CREATE OR REPLACE API INTEGRATION ms_snowflake_external_function
-    api_provider = aws_api_gateway
-    api_aws_role_arn = '<IAM_role_ARN>'
-    api_allowed_prefixes = ('<Lambda triger endpoint URL>')
-    enabled = true;
+    API_PROVIDER = aws_api_gateway
+    API_AWS_ROLE_ARN = '<IAM_role_ARN>'
+    API_ALLOWED_PREFIXES = ('<Lambda trigger endpoint URL>')
+    ENABLED = true;
 ```
 
-Write down the data you'll get from the code below and fill out the trust relationship as described here: https://docs.snowflake.com/en/sql-reference/external-functions-creating-aws-common-api-integration-proxy-link
+### Describing Integration and Setting Up Trust Relationships
+
+Retrieve the API integration details and set up trust relationships as described in the Snowflake documentation.
 
 ```sql
 DESCRIBE INTEGRATION ms_snowflake_external_function;
@@ -52,30 +64,32 @@ DESCRIBE INTEGRATION ms_snowflake_external_function;
 
 ![Trust Relationships](images/app_snowflake_trust_relationships.png)
 
+Refer to the documentation link for setting up trust relationships: [Trust Relationship Setup](https://docs.snowflake.com/en/sql-reference/external-functions-creating-aws-common-api-integration-proxy-link)
+
+### Creating External Function
+
+Define an external function in Snowflake to call the AWS Lambda function.
+
 ```sql
 CREATE OR REPLACE EXTERNAL FUNCTION ms_post_to_lambda(message VARCHAR)
     RETURNS VARIANT
     API_INTEGRATION = ms_snowflake_external_function
-    AS 'Lambda triger endpoint URL';
+    AS '<Lambda trigger endpoint URL>';
 ```
+
+### Creating a Procedure to Call the External Function
 
 ```sql
 CREATE OR REPLACE PROCEDURE ms_snowflake_procedure(message VARCHAR)
     RETURNS STRING
     LANGUAGE JAVASCRIPT
     EXECUTE AS CALLER
-    AS
-    $$
+    AS $$
         try {
             var result = snowflake.execute({sqlText: `SELECT ms_post_to_lambda(:1) AS result_message`, binds: [MESSAGE]});
             result.next(); // Move to the first row in the result set
-
-            // Assuming the function returns a JSON object in the first column
             var resultObject = result.getColumnValue(1); // Retrieves the JSON object
-
-            // Check if resultObject is already a string or needs stringification
             var resultString = (typeof resultObject === 'string') ? resultObject : JSON.stringify(resultObject);
-
             return "Message from Lambda: " + resultString;
         } catch (err) {
             return "Error posting message to Lambda: " + err;
@@ -83,24 +97,31 @@ CREATE OR REPLACE PROCEDURE ms_snowflake_procedure(message VARCHAR)
     $$;
 ```
 
+### Executing the Procedure
+
 ```sql
 CALL ms_snowflake_procedure('Any message here');
 ```
 
 ![SQL Joins](images/app_snowflake_p2.png)
 
-Cleanup:
-- Delete the Lambda function and role
+## Cleanup
 
-- Clean Snowflake
+To clean up resources:
+
 ```sql
-DROP PROCEDURE ms_snowflake_procedure(varchar);
-DROP FUNCTION ms_post_to_lambda(varchar);
+-- Clean up Snowflake resources
+DROP PROCEDURE ms_snowflake_procedure(VARCHAR);
+DROP FUNCTION ms_post_to_lambda(VARCHAR);
 DROP INTEGRATION ms_snowflake_external_function;
 ```
 
 ![Clean Snowflake](images/app_snowflake_cleanup.png)
 
-TODO:
-- Send some kind of variable to Lambda that could be interpreted and a specific action taken depending on what it is.
-- Automate things through Terraform and, possibly, Ansible.
+## Next Steps
+
+- Explore sending variable data to Lambda for dynamic action determination.
+- Consider automating setup and deployment using Terraform and Ansible for infrastructure as code practices.
+
+## Additional Information
+- I leveraged ChatGPT-4 to enhance the appearance and feel of the .md file. The underlying commands and logic were crafted by me or found on internet and tweaked to fit my needs.
