@@ -50,6 +50,8 @@ DESCRIBE INTEGRATION ms_snowflake_external_function;
 
 ![DESCRIBE INTEGRATION](images/app_snowflake_p1.png)
 
+![Trust Relationships](images/app_snowflake_trust_relationships.png)
+
 ```sql
 CREATE OR REPLACE EXTERNAL FUNCTION ms_post_to_lambda(message VARCHAR)
     RETURNS VARIANT
