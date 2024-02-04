@@ -1,0 +1,15 @@
+---
+- name: "Install Docker on Ubuntu"
+  hosts: all
+  become: true
+  tasks:
+    - name: Create a directory if it does not exist
+      file:
+        path: /tmp/random_directory
+        state: directory
+        mode: '0644'
+    - name: copy the file from localhost into the folder
+      copy:
+        src: ./install_ansible.sh
+        dest: /tmp/random_directory
+        mode: u=rw,g=r,o=r

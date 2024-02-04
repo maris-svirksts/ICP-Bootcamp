@@ -1,0 +1,19 @@
+---
+- name: Create multiple files using a loop
+  hosts: all
+  become: yes
+  vars:
+    files_to_create:
+      - path: "./t1"
+        content: "T1"
+      - path: "./t2"
+        content: "T2"
+      - path: "./t3"
+        content: "T3"
+
+  tasks:
+    - name: Create multiple files
+      ansible.builtin.copy:
+        content: "{{ item.content }}"
+        dest: "{{ item.path }}"
+      loop: "{{ files_to_create }}"

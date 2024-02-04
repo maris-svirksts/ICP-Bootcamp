@@ -1,0 +1,18 @@
+---
+- name: Create a local file with Ansible
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create a file in local dir
+      copy:
+        content: |
+          Hello, this is a test file created by Ansible.
+          You can customize this content as needed.
+        dest: "./testfile.txt"
+    - name: read the content of the file
+      command: cat testfile.txt
+      register: file_contents
+
+    - name: print out the content of the file
+      debug:
+        var: file_contents.stdout_lines

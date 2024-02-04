@@ -1,0 +1,13 @@
+---
+- name: Check Apache2 Service
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Check Apache2 service status
+      command: systemctl is-active apache2
+      register: apache_status
+
+    - name: Display Apache2 service status
+      debug:
+        msg: "{{ apache_status.stdout }}""

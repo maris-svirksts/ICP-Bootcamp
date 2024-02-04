@@ -1,0 +1,13 @@
+---
+- name: Check MySQL Service
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Check MySQL service status
+      command: systemctl status mysql
+      register: mysql_status
+
+    - name: Display MySQL service status
+      debug:
+        var: mysql_status.stdout_lines
