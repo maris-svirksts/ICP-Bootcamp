@@ -1,5 +1,5 @@
 ---
-- name: "Install Docker on Ubuntu"
+- name: "Create a directory and copy a file from localhost to it"
   hosts: all
   become: true
   tasks:
