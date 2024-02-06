@@ -1,82 +1,81 @@
+# Name of the GitHub Actions Workflow
 name: Github Actions Playground
 
+# Trigger the workflow on push events for Python files
 on:
   push:
-    paths: # Run only if a Python file is commited.
-      - "**.py"
+    paths:
+      - "**.py" # Run the workflow only if the committed files include Python files
 
-permissions:
-  checks: write
-  contents: write
-
+# Define the jobs to be run by the workflow
 jobs:
-  Checkout_Code: # As per Slides: creating artifact as the first action.
-    runs-on: ubuntu-latest
+  # Job for checking out the code and creating an artifact of the codebase
+  Checkout_Code:
+    runs-on: ubuntu-latest # Specify the type of runner that the job will run on
     outputs:
-      timestamp: ${{ steps.timestamp.outputs.time }}
+      timestamp: ${{ steps.timestamp.outputs.time }} # Output the timestamp to be used in artifact naming
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout Code # Step to checkout the repository code
+        uses: actions/checkout@v4 # Use the checkout action to access the repository code
 
-      - name: Get Timestamp
+      - name: Get Timestamp # Generate a timestamp for creating a unique artifact name
         id: timestamp
-        run: echo "::set-output name=time::$(date +%s)"
+        run: echo "::set-output name=time::$(date +%s)" # Set the timestamp as an output for later use
 
-      - name: Archive Code
+      - name: Archive Code # Archive the checked-out code as an artifact
         uses: actions/upload-artifact@v3
         with:
-          name: repo-code-${{ steps.timestamp.outputs.time }}
-          path: .
+          name: repo-code-${{ steps.timestamp.outputs.time }} # Name the artifact using the generated timestamp
+          path: . # Specify the directory to upload (the entire repository in this case)
 
-  Linting: # I'm just checking the data, not enforcing it to be correct for the overall pipeline to finish successfully.
-    needs: Checkout_Code
-    if: contains(github.event.head_commit.message, '/lint') # Check if commit message contains /lint
+  # Job for linting the code, dependent on Checkout_Code job
+  Linting:
+    needs: Checkout_Code # This job needs the Checkout_Code job to finish first
+    if: contains(github.event.head_commit.message, '/lint') # Only run this job if the commit message contains '/lint'
     runs-on: ubuntu-latest
     steps:
-      - name: Download Code
+      - name: Download Code # Step to download the code artifact
         uses: actions/download-artifact@v3
         with:
-          name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }}
+          name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }} # Specify the artifact name to download
 
-      - name: Set up Python
+      - name: Set up Python # Setup Python environment
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.10" # Specify the Python version to use
 
-      - name: Install Python dependencies
-        run: pip install black flake8
+      - name: Install Python dependencies # Install linting tools
+        run: pip install black flake8 # Use pip to install Black and Flake8
 
-      - name: Run Linter
-        uses: wearerequired/lint-action@v2
+      - name: Run Linter # Run linting checks on the code
+        uses: wearerequired/lint-action@v2 # Use the lint-action to perform linting
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          auto_fix: true
-          black: true
-          black_auto_fix: true
-          flake8: true
-          flake8_auto_fix: false
+          black: true # Enable Black for code formatting checks
+          flake8: true # Enable Flake8 for code style checks
 
+  # Job for performing exploratory operations, dependent on Checkout_Code job
   Exploring:
     needs: Checkout_Code
     runs-on: ubuntu-latest
     steps:
-      - name: Greeting
+      - name: Greeting # Simple greeting step
         run: echo "Hello, World!"
 
-      - name: Trigger Info
+      - name: Trigger Info # Display the trigger event name
         run: echo "This action was triggered by a ${{ github.event_name }}"
 
+  # Job for publishing the project, dependent on both Checkout_Code and Exploring jobs
   Publish:
     needs: [Checkout_Code, Exploring]
     runs-on: ubuntu-latest
     steps:
-      - name: Download Code
+      - name: Download Code # Download the code artifact
         uses: actions/download-artifact@v3
         with:
           name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }}
 
-      - name: Publish Start
+      - name: Publish Start # Placeholder step for the start of publishing
         run: echo "Publishing the project"
 
-      - name: Publish Completion
+      - name: Publish Completion # Placeholder step for the completion of publishing
         run: echo "Publish complete"
