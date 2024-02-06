@@ -4,11 +4,15 @@ jobs:
   Exploring:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello, World!"
-      - run: "This action was triggered by a ${{ github.event_name }}"
+      - name: Greeting
+        run: echo "Hello, World!"
+      - name: Trigger Info
+        run: echo "This action was triggered by a ${{ github.event_name }}"
   
-  Building: #Jobs run in paralel
+  Building:
     runs-on: ubuntu-latest
     steps:
-      -run: echo "Building the project"
-      -run: echo "Build complete"
+      - name: Build Start
+        run: echo "Building the project"
+      - name: Build Completion
+        run: echo "Build complete"
