@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Start
-        run: echo "Building the project"
+        run: echo "Building the project ${{ secrets.TEST_SECRET }}"
       - name: Build Completion
-        run: echo "Build complete"
+        run: echo "Build complete ${{ vars.TESTVARIABLE }} "
