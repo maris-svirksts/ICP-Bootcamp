@@ -6,7 +6,7 @@ on:
       - "**.py"
 
 jobs:
-  Checkout_Code:
+  Checkout_Code: # As per Slides: creating artifact as the first action.
     runs-on: ubuntu-latest
     outputs:
       timestamp: ${{ steps.timestamp.outputs.time }}
@@ -24,9 +24,9 @@ jobs:
           name: repo-code-${{ steps.timestamp.outputs.time }}
           path: .
 
-  Linting:
+  Linting: # I'm just checking the data, not enforcing it to be correct for the overall pipeline to finish successfully.
     needs: Checkout_Code
-    if: contains(github.event.head_commit.message, '/lint')
+    if: contains(github.event.head_commit.message, '/lint') # Check if commit message contains /lint
     runs-on: ubuntu-latest
     steps:
       - name: Download Code
@@ -37,7 +37,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.10
+          python-version: '3.10'
 
       - name: Install Python dependencies
         run: pip install black flake8
@@ -58,7 +58,7 @@ jobs:
       - name: Trigger Info
         run: echo "This action was triggered by a ${{ github.event_name }}"
 
-  Building:
+  Publish:
     needs: [Checkout_Code, Exploring]
     runs-on: ubuntu-latest
     steps:
@@ -67,8 +67,8 @@ jobs:
         with:
           name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }}
 
-      - name: Build Start
-        run: echo "Building the project"
+      - name: Publish Start
+        run: echo "Publishing the project"
 
-      - name: Build Completion
-        run: echo "Build complete"
+      - name: Publish Completion
+        run: echo "Publish complete"
