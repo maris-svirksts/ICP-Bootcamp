@@ -5,6 +5,10 @@ on:
     paths: # Run only if a Python file is commited.
       - "**.py"
 
+permissions:
+  checks: write
+  contents: write
+
 jobs:
   Checkout_Code: # As per Slides: creating artifact as the first action.
     runs-on: ubuntu-latest
@@ -66,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Code
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }}
 
