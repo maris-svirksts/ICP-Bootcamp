@@ -5,7 +5,6 @@ def add_numbers(a, b):
     # Return the sum
     return result
 
-
 # Example usage of the add_numbers function
 if __name__ == "__main__":
     num1 = 5
