@@ -1,18 +1,65 @@
-name: Github Actions Demo
-on: [push]
-jobs: 
+name: Github Actions Playground
+on:
+  push:
+    paths:
+      - "**.py"
+jobs:
+  Checkout_Code:
+    runs-on: ubuntu-latest
+    outputs:
+      timestamp: ${{ steps.timestamp.outputs.time }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Get Timestamp
+        id: timestamp
+        run: echo "::set-output name=time::$(date +%s)"
+      - name: Archive Code
+        uses: actions/upload-artifact@v2
+        with:
+          name: repo-code-${{ steps.timestamp.outputs.time }}
+          path: .
+
+  Linting:
+    needs: Checkout_Code
+    if: contains(github.event.head_commit.message, '/lint')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Code
+        uses: actions/download-artifact@v2
+        with:
+          name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }}
+      - name: Set up Python
+        uses: actions/checkout@v4
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.10
+      - name: Install Python dependencies
+        run: pip install black flake8
+      - name: Run Linter
+        uses: wearerequired/lint-action@v2
+        with:
+          black: true
+          flake8: true
+  
   Exploring:
+    needs: Checkout_Code
     runs-on: ubuntu-latest
     steps:
       - name: Greeting
         run: echo "Hello, World!"
       - name: Trigger Info
         run: echo "This action was triggered by a ${{ github.event_name }}"
-  
+
   Building:
+    needs: [Checkout_Code, Exploring]
     runs-on: ubuntu-latest
     steps:
+      - name: Download Code
+        uses: actions/download-artifact@v2
+        with:
+          name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }}
       - name: Build Start
-        run: echo "Building the project ${{ secrets.TEST_SECRET }}"
+        run: echo "Building the project"
       - name: Build Completion
-        run: echo "Build complete ${{ vars.TESTVARIABLE }} "
+        run: echo "Build complete"
