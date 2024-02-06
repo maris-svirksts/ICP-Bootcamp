@@ -27,6 +27,11 @@ class UserDB:
 
 _Software entities should be open for extension, but closed for modification._
 
+IT's a good idea to use abstract class for baseclass if needed.
+@abstractmethod
+def pay(self, order, security_mode):
+    pass
+
 ### Example:
 ```python
 # Good: Extended without modifying existing behavior
