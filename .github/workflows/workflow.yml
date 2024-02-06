@@ -1,0 +1,14 @@
+name: Github Actions Demo
+on: [push]
+jobs: 
+  Exploring:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello, World!"
+      - run: "This action was triggered by a ${{ github.event_name }}"
+  
+  Building: #Jobs run in paralel
+    runs-on: ubuntu-latest
+    steps:
+      -run: echo "Building the project"
+      -run: echo "Build complete"
