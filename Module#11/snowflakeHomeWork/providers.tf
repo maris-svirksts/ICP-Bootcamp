@@ -10,7 +10,7 @@ terraform {
 provider "snowflake" {
   # Configuration options
   account  = var.snowflake_account
-  username = var.snowflake_user
+  user     = var.snowflake_user
   role     = var.snowflake_role
   password = var.snowflake_password
 }
