@@ -31,3 +31,42 @@ As part of this task, you are to create a series of Terraform scripts/modules th
 - Modularity and Reusability: Scripts/modules should be written in a way that they can be reused in different environments or scenarios.
 - Documentation: Documentation should be clear, concise, and sufficient for a new user to understand and use the codebase.
 - Code Quality: The code should be well-organized, commented, and easy to maintain.
+
+# The Solution
+## Terraform and Snowflake Integration
+
+This project contains Terraform scripts for automating the provisioning of Snowflake resources, including a warehouse, database, schema, table, and role, following Infrastructure as Code (IaC) best practices.
+
+### Prerequisites
+- Terraform installed on your machine.
+- Snowflake account credentials.
+
+### Setup Instructions
+1. Clone this repository.
+2. Copy `terraform.tfvars.example` to `terraform.tfvars` and fill in your specific values.
+3. Run `terraform init` to initialize the Terraform environment.
+4. Run `terraform plan` to review the changes that will be applied.
+5. Run `terraform apply` to apply the changes to your Snowflake account.
+
+### Modules
+This project is structured into modules for each resource type:
+- `warehouse`: Provisions a compute warehouse.
+- `database`: Creates a dedicated database.
+- `schema`: Creates a schema within the specified database.
+- `table`: Creates a table within the specified schema.
+- `role`: Creates a role with specific permissions.
+
+### Customization
+Edit `terraform.tfvars` to customize the parameters as needed.
+
+### Security
+Ensure your Snowflake credentials are securely stored and never hardcode sensitive information in your Terraform files.
+
+### Problems
+│ Error: could not retrieve private key: private Key file could not be read err = could not read private key err = open -----BEGIN PRIVATE KEY-----
+│ MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCrqyDo3Sbak97T
+│ TMTTptY5x6purotJMg9xKQFUNWQtIMzhkk+mU6DQOZsHYLg6UMK7Gye9z3VoE0O6
+......................
+
+### Notes
+Documentation polished by ChatGPT

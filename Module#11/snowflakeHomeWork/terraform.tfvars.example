@@ -1,0 +1,5 @@
+snowflake_account = "your_account_id"
+snowflake_user    = "your_username"
+snowflake_role    = "SYSADMIN"
+snowflake_region  = "AWS_EU_NORTH_1"
+private_key_path  = "/path/to/your/private_key.p8"
