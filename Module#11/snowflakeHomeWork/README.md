@@ -64,11 +64,28 @@ To create a new private/public key pair for Snowflake and Terraform integration,
 
 #### Configuring Snowflake User with the Public Key
 
-Within Snowflake, you need to set the public key for the specific user. Use the command below, replacing `<username>` with your actual username and `<your public key>` with the key generated in the previous step.
+First, create a new user and a role, then assign the necessary system roles to your custom role and associate this role with the newly created user:
 
 ```sql
-ALTER USER <username> SET rsa_public_key = """<your public key>""";
+CREATE USER <username>
+    DEFAULT_ROLE = '<role>'
+    MUST_CHANGE_PASSWORD = FALSE;
+
+CREATE ROLE <role>;
+
+GRANT ROLE sysadmin TO ROLE <role>;
+GRANT ROLE securityadmin TO ROLE <role>;
+
+GRANT ROLE <role> TO USER <username>;
 ```
+
+Within Snowflake, you need to set the public key for the specific user. Execute the following SQL command:
+
+```sql
+ALTER USER <username> SET rsa_public_key = '<your public key>';
+```
+
+Ensure you replace `<username>`, `<role>` and `<your public key>` with your specific details to correctly configure the user within Snowflake.
 
 #### Terraform Setup Instructions 
 
