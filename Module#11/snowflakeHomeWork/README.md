@@ -60,6 +60,8 @@ To create a new private/public key pair for Snowflake and Terraform integration,
     ssh-keygen -e -f id_rsa_snowflake_terraform.pub -m pkcs8
     ```
 
+4. Copy / paste the returned result in to the `ALTER USER` SQL Statement below.
+
 #### Configuring Snowflake User with the Public Key
 
 Within Snowflake, you need to set the public key for the specific user. Use the command below, replacing `<username>` with your actual username and `<your public key>` with the key generated in the previous step.
