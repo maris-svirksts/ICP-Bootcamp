@@ -9,8 +9,9 @@ terraform {
 
 provider "snowflake" {
   # Configuration options
-  account  = var.snowflake_account
-  user     = var.snowflake_user
-  role     = var.snowflake_role
-  password = var.snowflake_password
+  account       = var.snowflake_account
+  user          = var.snowflake_user
+  role          = var.snowflake_role
+  private_key   = file(var.snowflake_private_key_path)
+  authenticator = "JWT" # https://github.com/Snowflake-Labs/terraform-provider-snowflake/issues/2133
 }

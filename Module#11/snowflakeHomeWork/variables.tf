@@ -14,13 +14,8 @@ variable "snowflake_role" {
   default     = "PUBLIC"
 }
 
-variable "snowflake_region" {
-  description = "Region of the Snowflake account"
-  type        = string
-}
-
-variable "snowflake_password" {
-  description = "Password for Snowflake login"
+variable "snowflake_private_key_path" {
+  description = "Path to the PEM-formatted private key file for Snowflake authentication."
   type        = string
   sensitive   = true
 }
