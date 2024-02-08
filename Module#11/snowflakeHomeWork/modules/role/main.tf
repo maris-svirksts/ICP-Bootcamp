@@ -38,7 +38,7 @@ resource "snowflake_grant_privileges_to_account_role" "schema_grant" {
 }
 
 resource "snowflake_grant_privileges_to_account_role" "table_select_grant" {
-  privileges        = ["SELECT"]
+  privileges        = ["INSERT", "SELECT"]
   account_role_name = snowflake_role.role.name
   on_schema_object {
     object_type = "TABLE"
