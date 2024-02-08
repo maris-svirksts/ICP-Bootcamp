@@ -42,11 +42,40 @@ This project contains Terraform scripts for automating the provisioning of Snowf
 - Snowflake account credentials.
 
 ### Setup Instructions
+
+#### Generating a Private/Public Key Pair
+
+To create a new private/public key pair for Snowflake and Terraform integration, you can combine the commands into a single step using the following instructions:
+
+1. Open your terminal or command prompt.
+2. Run the command to generate a new RSA key pair:
+
+    ```bash
+    ssh-keygen -t rsa -b 2048 -m pkcs8 -C "Snowflake / Terraform" -f id_rsa_snowflake_terraform
+    ```
+
+3. Convert the public key to PKCS#8 format:
+
+    ```bash
+    ssh-keygen -e -f id_rsa_snowflake_terraform.pub -m pkcs8
+    ```
+
+#### Configuring Snowflake User with the Public Key
+
+Within Snowflake, you need to set the public key for the specific user. Use the command below, replacing `<username>` with your actual username and `<your public key>` with the key generated in the previous step.
+
+```sql
+ALTER USER <username> SET rsa_public_key = """<your public key>""";
+```
+
+#### Terraform Setup Instructions 
+
 1. Clone this repository.
 2. Copy `terraform.tfvars.example` to `terraform.tfvars` and fill in your specific values.
 3. Run `terraform init` to initialize the Terraform environment.
 4. Run `terraform plan` to review the changes that will be applied.
 5. Run `terraform apply` to apply the changes to your Snowflake account.
+6. Run `terraform destroy` to remove the changes from your Snowflake account.
 
 ### Modules
 This project is structured into modules for each resource type:
@@ -61,12 +90,6 @@ Edit `terraform.tfvars` to customize the parameters as needed.
 
 ### Security
 Ensure your Snowflake credentials are securely stored and never hardcode sensitive information in your Terraform files.
-
-### Problems
-│ Error: could not retrieve private key: private Key file could not be read err = could not read private key err = open -----BEGIN PRIVATE KEY-----
-│ MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCrqyDo3Sbak97T
-│ TMTTptY5x6purotJMg9xKQFUNWQtIMzhkk+mU6DQOZsHYLg6UMK7Gye9z3VoE0O6
-......................
 
 ### Notes
 Documentation polished by ChatGPT
