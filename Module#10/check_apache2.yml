@@ -10,4 +10,4 @@
 
     - name: Display Apache2 service status
       debug:
-        msg: "{{ apache_status.stdout }}""
+        msg: "{{ apache_status.stdout }}"
