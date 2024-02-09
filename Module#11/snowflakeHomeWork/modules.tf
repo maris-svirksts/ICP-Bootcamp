@@ -1,16 +1,15 @@
 module "warehouse" {
   source              = "./modules/warehouse"
   warehouse_name      = var.warehouse_name
-  warehouse_size      = "X-SMALL"
-  auto_suspend        = 300
-  auto_resume         = true
-  initially_suspended = false
+  warehouse_size      = var.warehouse_size
+  auto_suspend        = var.auto_suspend
+  auto_resume         = var.auto_resume
+  initially_suspended = var.initially_suspended
 }
 
 module "database" {
   source           = "./modules/database"
   database_name    = var.database_name
-  depends_on       = [module.warehouse]
   database_comment = "This is an example database."
 }
 
@@ -40,6 +39,6 @@ module "role" {
   warehouse_name  = var.warehouse_name
   table_name      = var.table_name
   role_privileges = ["USAGE", "SELECT"] # Hard coded at the moment, need to find a way to do dynamic
-  depends_on    = [module.table]
-  role_comment = "This role accesses the table created before."
+  depends_on      = [module.table]
+  role_comment    = "This role accesses the table created before."
 }

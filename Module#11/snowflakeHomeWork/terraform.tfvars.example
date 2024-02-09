@@ -2,10 +2,16 @@ snowflake_account            = "your_snowflake_account. Format: *******-"*******
 snowflake_user               = "your_snowflake_user"
 snowflake_role               = "your_preferred_role"
 snowflake_private_key_path   = "/path/to/your/private_key.pem"
+
 warehouse_name               = "custom_warehouse_name"
 warehouse_size               = "X-SMALL"
+auto_suspend                 = 300
+auto_resume                  = true
+initially_suspended          = true
+
 database_name                = "custom_database_name"
 schema_name                  = "custom_schema_name"
+
 table_name                   = "custom_table_name"
 table_columns                = {
   id         = "INTEGER",
@@ -13,5 +19,6 @@ table_columns                = {
   created_at = "TIMESTAMP",
   is_active  = "BOOLEAN"
 }
+
 role_name                    = "custom_role_name"
 # role_privileges              = ["USAGE", "SELECT"]: Does nothing for now. The privileges are hardcoded at the moment.
