@@ -96,6 +96,14 @@ Ensure you replace `<username>`, `<role>` and `<your public key>` with your spec
 5. Run `terraform apply` to apply the changes to your Snowflake account.
 6. Run `terraform destroy` to remove the changes from your Snowflake account.
 
+#### Call with specific variables overwritten.
+```bash
+terraform plan -var="warehouse_name=other_warehouse" -var="table_name=specific_table"
+```
+```bash
+terraform apply -var="warehouse_name=other_warehouse" -var="table_name=specific_table"
+```
+
 ### Modules
 This project is structured into modules for each resource type:
 - `warehouse`: Provisions a compute warehouse.
