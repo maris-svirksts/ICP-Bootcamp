@@ -124,6 +124,7 @@ project-directory/
 ├── outputs.tf             # Output definitions
 ├── terraform.tfvars       # Variable values for different environments
 ├── providers.tf           # Provider configuration
+├── locals.tf              # Local values
 │
 ├── modules/               # Directory containing all modules
 │   ├── warehouse/         # Module for Snowflake warehouse provisioning
