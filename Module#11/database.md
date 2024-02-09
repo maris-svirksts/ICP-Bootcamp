@@ -18,6 +18,11 @@ A table is a collection of related data entries in a database and consists of co
 
 SQL is a standard programming language specifically designed for managing and manipulating relational databases. It is used for querying, updating, and operating on data stored in a relational database.
 
+https://sqliteonline.com/
+
+https://www.metabase.com/learn/sql-questions/sql-best-practices
+
+
 ### Transaction
 
 A transaction in the context of databases is a sequence of one or more SQL operations that are executed as a single unit of work. A transaction has four primary properties, often referred to by the acronym ACID: Atomicity, Consistency, Isolation, and Durability. Transactions ensure data integrity and consistency in case of failure.
