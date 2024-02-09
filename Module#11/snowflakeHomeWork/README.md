@@ -115,6 +115,46 @@ This project is structured into modules for each resource type:
 ### Customization
 Edit `terraform.tfvars` to customize the parameters as needed.
 
+### Project Structure
+```graphql
+project-directory/
+│
+├── modules.tf             # Main Terraform configuration file
+├── variables.tf           # Variable definitions
+├── outputs.tf             # Output definitions
+├── terraform.tfvars       # Variable values for different environments
+├── providers.tf           # Provider configuration
+│
+├── modules/               # Directory containing all modules
+│   ├── warehouse/         # Module for Snowflake warehouse provisioning
+│   │   ├── main.tf        # Warehouse resource definition
+│   │   ├── variables.tf   # Warehouse-specific variables
+│   │   └── outputs.tf     # Outputs from the warehouse module
+│   │
+│   ├── database/          # Module for Snowflake database provisioning
+│   │   ├── main.tf        # Database resource definition
+│   │   ├── variables.tf   # Database-specific variables
+│   │   └── outputs.tf     # Outputs from the database module
+│   │
+│   ├── schema/            # Module for Snowflake schema within a database
+│   │   ├── main.tf        # Schema resource definition
+│   │   ├── variables.tf   # Schema-specific variables
+│   │   └── outputs.tf     # Outputs from the schema module
+│   │
+│   ├── table/             # Module for Snowflake table within a schema
+│   │   ├── main.tf        # Table resource definition
+│   │   ├── variables.tf   # Table-specific variables
+│   │   └── outputs.tf     # Outputs from the table module
+│   │
+│   └── role/              # Module for Snowflake role with specific permissions
+│       ├── main.tf        # Role resource definition
+│       ├── variables.tf   # Role-specific variables
+│       └── outputs.tf     # Outputs from the role module
+└
+.gitignore             # Git ignore file
+```
+
+
 ### Security
 Ensure your Snowflake credentials are securely stored and never hardcode sensitive information in your Terraform files.
 
