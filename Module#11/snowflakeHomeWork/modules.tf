@@ -39,6 +39,6 @@ module "role" {
   warehouse_name  = local.dynamic_warehouse_name
   table_name      = local.dynamic_table_name
   role_privileges = local.dynamic_role_privileges
-  depends_on      = [module.table]
+  depends_on      = [module.table, module.warehouse]
   role_comment    = "This role accesses the table created before."
 }
