@@ -91,10 +91,9 @@ Ensure you replace `<username>`, `<role>` and `<your public key>` with your spec
 
 1. Clone this repository.
 2. Copy `terraform.tfvars.example` to `terraform.tfvars` and fill in your specific values.
-3. Run `terraform init` to initialize the Terraform environment.
-4. Run `terraform plan` to review the changes that will be applied.
-5. Run `terraform apply` to apply the changes to your Snowflake account.
-6. Run `terraform destroy` to remove the changes from your Snowflake account.
+3. Run `./run.sh` to prepare and initialize the Terraform environment.
+4. Run `terraform apply` to apply the changes to your Snowflake account.
+5. Run `terraform destroy` to remove the changes from your Snowflake account.
 
 #### Call with specific variables overwritten.
 ```bash
@@ -124,6 +123,7 @@ project-directory/
 ├── outputs.tf             # Output definitions
 ├── terraform.tfvars       # Variable values for different environments
 ├── providers.tf           # Provider configuration
+├── run.sh                 # Environment preperation
 │
 ├── modules/               # Directory containing all modules
 │   ├── warehouse/         # Module for Snowflake warehouse provisioning
@@ -150,6 +150,9 @@ project-directory/
 │       ├── main.tf        # Role resource definition
 │       ├── variables.tf   # Role-specific variables
 │       └── outputs.tf     # Outputs from the role module
+│
+├── supportFunctions/      # Directory containing all support functions.
+│   └── mod_providers.py   # Prepend a provider to each module
 └
 .gitignore             # Git ignore file
 ```
