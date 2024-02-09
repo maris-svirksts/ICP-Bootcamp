@@ -124,6 +124,7 @@ project-directory/
 ├── terraform.tfvars       # Variable values for different environments
 ├── providers.tf           # Provider configuration
 ├── run.sh                 # Environment preperation
+├── locals.tf              # Local values
 │
 ├── modules/               # Directory containing all modules
 │   ├── warehouse/         # Module for Snowflake warehouse provisioning
