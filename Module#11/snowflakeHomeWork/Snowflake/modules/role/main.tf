@@ -1,11 +1,3 @@
-terraform {
-  required_providers {
-    snowflake = {
-      source = "Snowflake-Labs/snowflake"
-    }
-  }
-}
-
 resource "snowflake_role" "role" {
   name    = var.role_name
   comment = var.role_comment
