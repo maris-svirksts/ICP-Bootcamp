@@ -6,7 +6,10 @@ python supportFunctions/mod_providers.py
 # Check if Python script executed successfully
 if [ $? -eq 0 ]; then
     echo "Python script executed successfully. Proceeding with Terraform..."
-    
+
+    # Navigate to the Snowflake directory
+    cd SnowFlake || exit
+
     terraform init
     
     terraform plan
