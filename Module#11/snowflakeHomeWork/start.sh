@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prepend terraform providers to individual modules.
-python supportFunctions/mod_providers.py
+python supportFunctions/add_providers.py
 
 # Check if Python script executed successfully
 if [ $? -eq 0 ]; then
