@@ -5,6 +5,11 @@ terraform {
       version = "0.85.0"
     }
   }
+  backend "s3" {
+    bucket = "maris-svirksts-terraform-state"
+    region = "eu-north-1"
+    key    = "terraform.tfstate"
+  }
 }
 
 provider "snowflake" {
