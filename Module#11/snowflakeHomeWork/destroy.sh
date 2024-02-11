@@ -5,7 +5,7 @@ cd SnowFlake || exit
 
 terraform destroy
 
-# Destroy S3 bucket.
+# Destroy the S3 bucket. Must be done after Snowflake is destroyed.
 cd ../SetupS3 || exit
 
 terraform destroy

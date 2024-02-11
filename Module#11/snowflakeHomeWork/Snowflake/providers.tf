@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "maris-svirksts-terraform-state"
+    bucket = "terraform-state"
     region = "eu-north-1"
     key    = "terraform.tfstate"
   }
