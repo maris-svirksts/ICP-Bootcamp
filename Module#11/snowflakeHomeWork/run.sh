@@ -7,13 +7,20 @@ python supportFunctions/mod_providers.py
 if [ $? -eq 0 ]; then
     echo "Python script executed successfully. Proceeding with Terraform..."
 
-    # Navigate to the Snowflake directory
-    cd SnowFlake || exit
+    # Setup S3 bucket.
+    cd SetupS3 || exit
 
     terraform init
-    
     terraform plan
-    
+    terraform apply -auto-approve # We recommend making sure that no one can change your infrastructure outside of your Terraform workflow.
+
+    # Run the main script.
+    cd ../SnowFlake || exit
+
+    terraform init
+    terraform plan
+    terraform apply
+
 else
     echo "Python script failed. Halting execution."
     exit 1

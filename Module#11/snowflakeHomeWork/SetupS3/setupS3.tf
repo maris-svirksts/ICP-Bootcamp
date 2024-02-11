@@ -11,9 +11,6 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "tfstate" {
-  bucket = "maris-svirksts-terraform-state"
-}
-
-resource "aws_s3_bucket" "key" {
-  bucket = "maris-svirksts-secret-key"
+  bucket        = "maris-svirksts-terraform-state"
+  force_destroy = true
 }
