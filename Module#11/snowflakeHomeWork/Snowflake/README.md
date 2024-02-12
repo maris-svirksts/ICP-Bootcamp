@@ -87,22 +87,6 @@ ALTER USER <username> SET rsa_public_key = '<your public key>';
 
 Ensure you replace `<username>`, `<role>` and `<your public key>` with your specific details to correctly configure the user within Snowflake.
 
-#### Terraform Setup Instructions 
-
-1. Clone this repository.
-2. Copy `terraform.tfvars.example` to `terraform.tfvars` and fill in your specific values.
-3. Run `./run.sh` to prepare and initialize the Terraform environment.
-4. Run `terraform apply` to apply the changes to your Snowflake account.
-5. Run `terraform destroy` to remove the changes from your Snowflake account.
-
-#### Call with specific variables overwritten.
-```bash
-terraform plan -var="warehouse_name=other_warehouse" -var="table_name=specific_table"
-```
-```bash
-terraform apply -var="warehouse_name=other_warehouse" -var="table_name=specific_table"
-```
-
 ### Modules
 This project is structured into modules for each resource type:
 - `warehouse`: Provisions a compute warehouse.
@@ -123,7 +107,6 @@ project-directory/
 ├── outputs.tf             # Output definitions
 ├── terraform.tfvars       # Variable values for different environments
 ├── providers.tf           # Provider configuration
-├── run.sh                 # Environment preperation
 ├── locals.tf              # Local values
 │
 ├── modules/               # Directory containing all modules
@@ -151,9 +134,6 @@ project-directory/
 │       ├── main.tf        # Role resource definition
 │       ├── variables.tf   # Role-specific variables
 │       └── outputs.tf     # Outputs from the role module
-│
-├── supportFunctions/      # Directory containing all support functions.
-│   └── mod_providers.py   # Prepend a provider to each module
 └
 .gitignore             # Git ignore file
 ```
