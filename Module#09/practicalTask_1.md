@@ -17,7 +17,7 @@ terraform destroy
 ```
 
 #### **`main.tf`**
-```python
+```terraform
 terraform {
     required_providers {
         aws = {

@@ -18,7 +18,7 @@ terraform destroy
 ```
 
 #### **`providers.tf` - Preparation: create a bucket for terraform.tfstate**
-```python
+```terraform
 terraform {
     required_providers {
         aws = {
@@ -38,7 +38,7 @@ resource "aws_s3_bucket" "tfstate" {
 ```
 
 #### **`main.tf`**
-```python
+```terraform
 terraform {
     required_providers {
         aws = {
