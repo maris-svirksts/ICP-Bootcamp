@@ -1,5 +1,5 @@
 // Paste here API Gateway URL
-var API_URL = '';
+var API_URL = '<API Gateway URL>';
 function CreateTableFromJSON() {
     fetch(API_URL)
         .then(response => response.json())

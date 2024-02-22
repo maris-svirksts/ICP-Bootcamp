@@ -26,8 +26,8 @@ data "aws_iam_policy_document" "lambda_s3_access" {
     ]
 
     resources = [
-      "arn:aws:s3:::maris-svirksts-bucket-userdata",
-      "arn:aws:s3:::maris-svirksts-bucket-userdata/*",
+      "arn:aws:s3:::${var.bucket}",
+      "arn:aws:s3:::${var.bucket}/*",
     ]
   }
 }
@@ -59,11 +59,25 @@ resource "aws_lambda_function" "lambda" {
 
   runtime = "python3.12"
 
-  timeout = 6
+  timeout = 6 # Function tends to timeout otherwise.
 
   environment {
     variables = {
       created_by = "Maris Svirksts"
     }
+  }
+}
+
+resource "aws_lambda_function_url" "path_to_data" {
+  function_name      = aws_lambda_function.lambda.function_name
+  authorization_type = "NONE"
+
+  cors {
+    allow_credentials = true
+    allow_origins     = ["*"]
+    allow_methods     = ["*"]
+    allow_headers     = ["date", "keep-alive"]
+    expose_headers    = ["keep-alive", "date"]
+    max_age           = 86400
   }
 }

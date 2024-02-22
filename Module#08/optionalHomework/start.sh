@@ -26,9 +26,24 @@ if [ $? -eq 0 ]; then
     # Run the main script.
     cd ../Lambda || exit
 
+    sed -i "s|<S3 User Data Bucket>|$userdata_bucket_name|" lambda_function.py
+
     terraform init
-    terraform plan
-    terraform apply
+    terraform plan -var="bucket=$userdata_bucket_name"
+    terraform apply -var="bucket=$userdata_bucket_name"
+
+    # Use AWS CLI to get the function URL configuration
+    function_url=$(aws lambda get-function-url-config --function-name "data_for_website" --query 'FunctionUrl' --output text)
+
+    # Check if the URL was successfully retrieved
+    if [ -n "$function_url" ]; then
+        echo "Lambda Function URL: $function_url"
+    else
+        echo "Failed to retrieve Lambda Function URL."
+    fi
+
+    cd ../websiteData || exit
+    sed -i "s|<API Gateway URL>|$function_url|" userData.js
 
     cd ..
     # Specify the first directory containing the files you want to upload

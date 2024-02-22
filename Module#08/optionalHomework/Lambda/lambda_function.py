@@ -3,7 +3,7 @@ import json
 
 def get_userData():
     # Paste here name of your S3 bucket with user data stored
-    s3_bucket = 'maris-svirksts-bucket-userdata'
+    s3_bucket = '<S3 User Data Bucket>'
     # Because we need to combine data from multiple S3 objects, initialize a list to hold this data before returning it
     data = []
     # Initialize an boto3 S3 client, and list the objects in our bucket
