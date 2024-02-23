@@ -68,16 +68,45 @@ resource "aws_lambda_function" "lambda" {
   }
 }
 
-resource "aws_lambda_function_url" "path_to_data" {
-  function_name      = aws_lambda_function.lambda.function_name
-  authorization_type = "NONE"
-
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-    allow_methods     = ["*"]
-    allow_headers     = ["date", "keep-alive"]
-    expose_headers    = ["keep-alive", "date"]
-    max_age           = 86400
+resource "aws_apigatewayv2_api" "http_api" {
+  name          = "data_for_website-API"
+  protocol_type = "HTTP"
+  cors_configuration {
+    allow_origins = ["*"]
+    allow_methods = ["GET", "POST", "OPTIONS"]
+    allow_headers = ["Content-Type"]
   }
+}
+
+resource "aws_apigatewayv2_integration" "lambda_integration" {
+  api_id             = aws_apigatewayv2_api.http_api.id
+  integration_type   = "AWS_PROXY"
+  integration_uri    = aws_lambda_function.lambda.invoke_arn
+  integration_method = "POST"
+}
+
+resource "aws_apigatewayv2_route" "lambda_route" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "ANY /{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
+}
+
+resource "aws_apigatewayv2_stage" "default_stage" {
+  api_id      = aws_apigatewayv2_api.http_api.id
+  name        = "default"
+  auto_deploy = true
+}
+
+resource "aws_lambda_permission" "api_gateway_http" {
+  statement_id  = "AllowExecutionFromHTTPAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.http_api.arn}/*/*"
+}
+
+output "http_api_url" {
+  value       = "${aws_apigatewayv2_api.http_api.api_endpoint}/default"
+  description = "The invoke URL of the HTTP API Gateway"
 }
