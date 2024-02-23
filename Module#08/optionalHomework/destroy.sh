@@ -21,7 +21,7 @@ cd Lambda || exit
 
 # Retrieve the API Gateway URL for cleanup purposes.
 function_url=$(aws apigatewayv2 get-apis --query "Items[?Name=='MyDemoHttpApi'].ApiEndpoint" --output text)
-function_url="${function_url%/}/prod/data_for_website"
+function_url="${function_url%/}/test/users"
 
 # Destroy the Terraform-managed Lambda resources.
 terraform destroy -var="bucket=$userdata_bucket_name" -auto-approve

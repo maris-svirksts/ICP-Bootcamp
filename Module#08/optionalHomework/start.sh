@@ -50,7 +50,7 @@ if [ $? -eq 0 ]; then
 
     # Retrieve the Lambda function URL from AWS API Gateway.
     function_url=$(aws apigatewayv2 get-apis --query "Items[?Name=='MyDemoHttpApi'].ApiEndpoint" --output text)
-    function_url="${function_url%/}/prod/data_for_website"
+    function_url="${function_url%/}/test/users"
 
     # Verify if the Lambda function URL was successfully retrieved.
     if [ -n "$function_url" ]; then
