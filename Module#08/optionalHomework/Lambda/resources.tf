@@ -68,45 +68,40 @@ resource "aws_lambda_function" "lambda" {
   }
 }
 
-resource "aws_apigatewayv2_api" "http_api" {
-  name          = "data_for_website-API"
+resource "aws_apigatewayv2_api" "MyDemoHttpApi" {
+  name          = "MyDemoHttpApi"
   protocol_type = "HTTP"
+  description   = "HTTP API Gateway for Lambda integration"
+
   cors_configuration {
     allow_origins = ["*"]
-    allow_methods = ["GET", "POST", "OPTIONS"]
-    allow_headers = ["Content-Type"]
+    allow_methods = ["GET"]
+    allow_headers = ["content-type"]
   }
 }
 
-resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id             = aws_apigatewayv2_api.http_api.id
-  integration_type   = "AWS_PROXY"
-  integration_uri    = aws_lambda_function.lambda.invoke_arn
-  integration_method = "POST"
+resource "aws_apigatewayv2_integration" "LambdaIntegration" {
+  api_id           = aws_apigatewayv2_api.MyDemoHttpApi.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.lambda.invoke_arn
 }
 
-resource "aws_apigatewayv2_route" "lambda_route" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "ANY /{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
+resource "aws_apigatewayv2_route" "DefaultRoute" {
+  api_id    = aws_apigatewayv2_api.MyDemoHttpApi.id
+  route_key = "GET /data_for_website"
+  target    = "integrations/${aws_apigatewayv2_integration.LambdaIntegration.id}"
 }
 
-resource "aws_apigatewayv2_stage" "default_stage" {
-  api_id      = aws_apigatewayv2_api.http_api.id
-  name        = "default"
+resource "aws_apigatewayv2_stage" "example" {
+  api_id      = aws_apigatewayv2_api.MyDemoHttpApi.id
+  name        = "prod"
   auto_deploy = true
 }
 
-resource "aws_lambda_permission" "api_gateway_http" {
-  statement_id  = "AllowExecutionFromHTTPAPIGateway"
+resource "aws_lambda_permission" "AllowAPIGatewayInvoke" {
+  statement_id  = "AllowAPIGatewayV2Invoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.function_name
   principal     = "apigateway.amazonaws.com"
-
-  source_arn = "${aws_apigatewayv2_api.http_api.arn}/*/*"
-}
-
-output "http_api_url" {
-  value       = "${aws_apigatewayv2_api.http_api.api_endpoint}/default"
-  description = "The invoke URL of the HTTP API Gateway"
+  source_arn    = "${aws_apigatewayv2_api.MyDemoHttpApi.execution_arn}/*/*"
 }

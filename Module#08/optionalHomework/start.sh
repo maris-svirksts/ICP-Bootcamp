@@ -33,7 +33,7 @@ if [ $? -eq 0 ]; then
     terraform apply -var="bucket=$userdata_bucket_name"
 
     # Use AWS CLI to get the function URL configuration
-    function_url=$(aws lambda get-function-url-config --function-name "data_for_website" --query 'FunctionUrl' --output text)
+    function_url=$(aws apigatewayv2 get-apis --query "Items[?Name=='MyDemoHttpApi'].ApiEndpoint" --output text) && function_url="${function_url%/}/prod/data_for_website"
 
     # Check if the URL was successfully retrieved
     if [ -n "$function_url" ]; then
