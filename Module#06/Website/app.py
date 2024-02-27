@@ -10,6 +10,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 @app.route('/<page>')
 def show_page(page):
     valid_pages = ['index.html', 'car.html']
@@ -17,6 +18,7 @@ def show_page(page):
         return render_template(page)
     else:
         return "Page not found", 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
