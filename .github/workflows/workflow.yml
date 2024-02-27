@@ -9,51 +9,46 @@ on:
 
 # Define the jobs to be run by the workflow
 jobs:
-  # Job for checking out the code and creating an artifact of the codebase
-  Checkout_Code:
-    runs-on: ubuntu-latest # Specify the type of runner that the job will run on
-    outputs:
-      timestamp: ${{ steps.timestamp.outputs.time }} # Output the timestamp to be used in artifact naming
-    steps:
-      - name: Checkout Code # Step to checkout the repository code
-        uses: actions/checkout@v4 # Use the checkout action to access the repository code
-
-      - name: Get Timestamp # Generate a timestamp for creating a unique artifact name
-        id: timestamp
-        run: echo "::set-output name=time::$(date +%s)" # Set the timestamp as an output for later use
-
-      - name: Archive Code # Archive the checked-out code as an artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: repo-code-${{ steps.timestamp.outputs.time }} # Name the artifact using the generated timestamp
-          path: . # Specify the directory to upload (the entire repository in this case)
-
-  # Job for linting the code, dependent on Checkout_Code job
+  # Job for linting the code
   Linting:
-    needs: Checkout_Code # This job needs the Checkout_Code job to finish first
-    if: contains(github.event.head_commit.message, '/lint') # Only run this job if the commit message contains '/lint'
+    # Conditionally execute this job when commit message includes '/lint'
+    if: contains(github.event.head_commit.message, '/lint') 
     runs-on: ubuntu-latest
     steps:
+      # Check out the repository code
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Set up the specified Python version
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
+      # Install linting and formatting tools
       - name: Install Dependencies
         run: |
           pip install flake8 black
 
+      # Run Flake8 for style guide enforcement
       - name: Run Flake8
         run: |
           flake8 . || echo "Flake8 reported issues."
         continue-on-error: true
 
+      # Check and auto-format code with Black
       - name: Auto-format with Black
         run: |
-          black . --check || (black . && echo "::set-output name=black_formatted::true")
+          # Use environment file to set outputs
+          if black . --check; then
+            echo "black_formatted=false" >> $GITHUB_OUTPUT
+          else
+            black .
+            echo "black_formatted=true" >> $GITHUB_OUTPUT
+          fi
         id: black_format
 
+      # Commit and push formatted code, if any changes were made
       - name: Commit and Push if Changes were Made
         if: steps.black_format.outputs.black_formatted == 'true'
         run: |
@@ -65,29 +60,53 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Job for performing exploratory operations, dependent on Checkout_Code job
+  # Job to check out the code and create an artifact of the codebase
+  Checkout_Code:
+    needs: Linting
+    runs-on: ubuntu-latest
+    outputs:
+      timestamp: ${{ steps.timestamp.outputs.time }} # Pass timestamp for artifact naming
+    steps:
+      # Check out repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Generate a timestamp for artifact naming
+      - name: Get Timestamp
+        id: timestamp
+        run: echo "time=$(date +%s)" >> $GITHUB_OUTPUT
+
+      # Archive the checked-out code as an artifact
+      - name: Archive Code
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-code-${{ steps.timestamp.outputs.time }}
+          path: .
+
+  # Job for performing exploratory operations, depends on Linting job
   Exploring:
-    needs: Checkout_Code
+    needs: Linting
     runs-on: ubuntu-latest
     steps:
-      - name: Greeting # Simple greeting step
+      - name: Greeting
         run: echo "Hello, World!"
 
-      - name: Trigger Info # Display the trigger event name
+      - name: Trigger Info
         run: echo "This action was triggered by a ${{ github.event_name }}"
 
-  # Job for publishing the project, dependent on both Checkout_Code and Exploring jobs
+  # Job for publishing the project, depends on Checkout_Code and Exploring jobs
   Publish:
     needs: [Checkout_Code, Exploring]
     runs-on: ubuntu-latest
     steps:
-      - name: Download Code # Download the code artifact
-        uses: actions/download-artifact@v3
+      # Download the code artifact
+      - name: Download Code
+        uses: actions/download-artifact@v4
         with:
           name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }}
 
-      - name: Publish Start # Placeholder step for the start of publishing
+      # Placeholder steps for publishing logic
+      - name: Publish Start
         run: echo "Publishing the project"
-
-      - name: Publish Completion # Placeholder step for the completion of publishing
+      - name: Publish Completion
         run: echo "Publish complete"
