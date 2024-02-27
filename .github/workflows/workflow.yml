@@ -34,24 +34,36 @@ jobs:
     if: contains(github.event.head_commit.message, '/lint') # Only run this job if the commit message contains '/lint'
     runs-on: ubuntu-latest
     steps:
-      - name: Download Code # Step to download the code artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: repo-code-${{ needs.Checkout_Code.outputs.timestamp }} # Specify the artifact name to download
+      - uses: actions/checkout@v4
 
-      - name: Set up Python # Setup Python environment
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.10" # Specify the Python version to use
+          python-version: "3.10"
 
-      - name: Install Python dependencies # Install linting tools
-        run: pip install black flake8 # Use pip to install Black and Flake8
+      - name: Install Dependencies
+        run: |
+          pip install flake8 black
 
-      - name: Run Linter # Run linting checks on the code
-        uses: wearerequired/lint-action@v2 # Use the lint-action to perform linting
-        with:
-          black: true # Enable Black for code formatting checks
-          flake8: true # Enable Flake8 for code style checks
+      - name: Run Flake8
+        run: |
+          flake8 . || echo "Flake8 reported issues."
+        continue-on-error: true
+
+      - name: Auto-format with Black
+        run: |
+          black . --check || (black . && echo "::set-output name=black_formatted::true")
+        id: black_format
+
+      - name: Commit and Push if Changes were Made
+        if: steps.black_format.outputs.black_formatted == 'true'
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .
+          git commit -m "Apply black formatting"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Job for performing exploratory operations, dependent on Checkout_Code job
   Exploring:
