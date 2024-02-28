@@ -14,7 +14,7 @@ if [ $? -eq 0 ]; then
     echo "Python script executed successfully. Proceeding with Terraform..."
 
     # Setup tfstate S3 bucket.
-    cd SetupS3 || exit
+    cd Setup || exit
 
     terraform init
     terraform plan -var="tfstate_bucket_name=$1"
