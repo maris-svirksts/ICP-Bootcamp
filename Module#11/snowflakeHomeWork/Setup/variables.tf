@@ -3,3 +3,11 @@ variable "tfstate_bucket_name" {
   type        = string
   default     = "terraform-state"
 }
+
+variable "common_tags" {
+  description = "Common tags for all resources"
+  type        = map(string)
+  default     = {
+    Name = "Maris Svirksts"
+  }
+}

@@ -5,6 +5,7 @@ module "warehouse" {
   auto_suspend        = local.dynamic_auto_suspend
   auto_resume         = local.dynamic_auto_resume
   initially_suspended = local.dynamic_initially_suspended
+  warehouse_comment   = "This is an example warehouse."
 }
 
 module "database" {

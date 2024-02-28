@@ -4,4 +4,5 @@ resource "snowflake_warehouse" "warehouse" {
   auto_suspend        = var.auto_suspend
   auto_resume         = var.auto_resume
   initially_suspended = var.initially_suspended
+  comment             = var.warehouse_comment
 }

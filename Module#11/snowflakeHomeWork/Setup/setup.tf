@@ -16,6 +16,8 @@ provider "aws" {
 resource "aws_s3_bucket" "tfstate" {
   bucket        = var.tfstate_bucket_name # Name of the S3 bucket, defined as a variable
   force_destroy = true # Allows the bucket to be destroyed even if it contains objects
+
+  tags = var.common_tags
 }
 
 # Resource block to set ownership controls on the S3 bucket
@@ -45,7 +47,10 @@ resource "aws_dynamodb_table" "terraform_state_lock" {
     type = "S" # Specifies the attribute type as string
   }
 
-  tags = {
-    Name = "TerraformStateLockTable" # Adds a tag for identification
-  }
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "TerraformStateLockTable" # Resource-specific tag
+    }
+  )
 }

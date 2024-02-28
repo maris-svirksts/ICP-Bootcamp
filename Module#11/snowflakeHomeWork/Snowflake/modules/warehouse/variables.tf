@@ -27,3 +27,9 @@ variable "initially_suspended" {
   type        = bool
   default     = false
 }
+
+variable "warehouse_comment" {
+  description = "An optional comment for the warehouse"
+  type        = string
+  default     = ""
+}
