@@ -6,6 +6,12 @@ __pycache__/
 # Local .terraform directories
 **/.terraform/*
 
+# Local .metals directories
+**/.metals/*
+
+# Local .vscode directories
+**/.vscode/*
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
@@ -41,3 +47,4 @@ terraform.rc
 # Various
 *.p8
 *.zip
+
