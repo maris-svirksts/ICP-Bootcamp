@@ -1,25 +1,57 @@
-https://explore.skillbuilder.aws/
+# Beginner Level AWS Training Suggestions
 
-Cloud Quest: Cloud Practitioner
+## Overview
+This document provides suggestions for the next ICP Bootcamps and new joiners with minimal or non-existing knowledge of AWS. It highlights two key resources: "Cloud Quest: Cloud Practitioner" and "Cloud Essentials," both accessible through AWS's Skill Builder platform.
 
-What is Cloud Quest: Cloud Practitioner?
+## Cloud Quest: Cloud Practitioner
 
-Cloud Quest: Cloud Practitioner is a virtual open-world game that empowers players to learn and develop AWS knowledge, through an assortment of instructional activities based on game thinking principles. Cloud Quest players are tasked with solving problems throughout the city by completing learning exercises using the AWS console. Players earn rewards that enable them to change the look and feel of their city and avatar. Cloud Quest: Cloud Practitioner allows you to try 12 hands-on solution building assignments for free.
+### What is Cloud Quest: Cloud Practitioner?
+Cloud Quest: Cloud Practitioner is a virtual open-world game designed to help users learn AWS. It incorporates game-thinking principles in instructional activities. Players solve problems using the AWS console, earn rewards, and customize their virtual city and avatar. It offers 12 hands-on assignments covering various AWS services like S3, Auto Scaling, and Load Balancing, providing a practical, engaging learning experience for free and other learning paths with subscription.
 
-How do I access Cloud Quest: Cloud Practitioner?
+### Accessing Cloud Quest
+Cloud Quest can be accessed at [Skill Builder - Cloud Quest](https://explore.skillbuilder.aws/learn). Users can find the game by searching for Cloud Quest or navigating through the Game-Based Learning - Free Catalog. Enrollment and game access are straightforward, requiring AWS Skill Builder sign-in.
 
-Cloud Quest: Cloud Practitioner is accessible via https://explore.skillbuilder.aws/learn. You can either search for Cloud Quest in the search bar, or locate the Game-Based Learning - Free Catalog on the home page, then choose Cloud Quest: Cloud Practitioner. Once on the Cloud Quest detail page, click Enroll. If you are not already logged into Skill Builder, you will be prompted to sign-in. After signing in and returning to the course detail page, select Start Learning Now. The game will open in a new browser tab.
+### Training Duration
+Approximately 12 hours of digital training are available within the free tier.
 
-~ 12 hours of digital training.
+## Cloud Essentials
 
+### About Cloud Essentials
+Cloud Essentials is a structured learning path introducing AWS Cloud fundamentals, including core services, security, architecture, pricing, and support. It includes various courses, knowledge checks, and an assessment for the AWS Knowledge badge.
 
-Cloud Essentials
-This Learning Path helps you build knowledge on AWS Cloud and exposes you to foundational cloud concepts, AWS services, security, architecture, pricing, and support. This Learning Path presents domain-specific content and includes courses, knowledge checks, and a knowledge badge assessment. This path is a guide and presents learning in a structured order, it can be used as presented or you can select the content that is most beneficial.
+### Intended Audience
+The learning path is designed for individuals new to AWS Cloud, aiming to gain a comprehensive understanding of AWS Cloud fundamentals, irrespective of their specific technical roles.
 
-Intended Audience
-This path is created to help individuals who are new to AWS Cloud technology and seek an overall understanding of the AWS Cloud, independent of specific technical roles. 
+### AWS Knowledge Badge
+Participants can earn an AWS Knowledge Badge by scoring 80% or higher on the assessment.
 
-AWS Knowledge Badge
-To verify your knowledge, or identify any gaps that you might have, take the knowledge badge assessment. Score 80% or higher and earn an AWS Knowledge badge that you can share with your network. The assessment is based on the courses in the learning path so we recommend completing these courses as needed.
+### Training Duration
+The Cloud Essentials path offers around 10 hours of digital training.
 
-Learning plan, 10h 10min of learning.
+## Conclusion
+For ICP Bootcamps and Accenture, utilizing these AWS training resources could be beneficial. With Cloud Quest and Cloud Essentials, learners can gain practical and theoretical knowledge of AWS, on Accenture side it could save 2 to 3 days of personel time requiring only the verification of learning badges.
+
+Access both learning paths at [AWS Skill Builder](https://explore.skillbuilder.aws/).
+
+## Screenshots
+
+![Screenshots](Images/Questions.png)
+*Individual Quizzes*
+
+![Screenshots](Images/Architecture-Components.png)
+*Architecture Components Quiz*
+
+![Screenshots](Images/HAWA-Video.png)
+*Learning Video*
+
+![Screenshots](Images/Learning-Stage-V2.png)
+*Learning Stage*
+
+![Screenshots](Images/Practice-Stage.png)
+*Practice Stage*
+
+![Screenshots](Images/DIY-Stage.png)
+*DIY Stage*
+
+![Screenshots](Images/Validation-Stage.png)
+*Result Validation*
