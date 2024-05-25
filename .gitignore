@@ -68,3 +68,5 @@ target/
 ## general
 *.class
 *.tasty
+
+.scala-build
